@@ -1,0 +1,14 @@
+NO ./tex/wall_north.xpm
+SO ./tex/wall_south.xpm
+
+WE ./tex/wall_west.xpm
+EA ./tex/wall_east.xpm
+F  220,100,0
+C  255,255,255
+
+
+1111111
+10N0001
+1001001
+1000001
+1111111
