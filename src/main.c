@@ -1,81 +1,37 @@
-// main de chatgpt:
 #include "cubd3.h"
-
-/* libère le tableau retourné par split_lines() */
-static void free_lines(char **lines)
-{
-    int i = 0;
-    if (!lines) return;
-    while (lines[i]) { free(lines[i]); i++; }
-    free(lines);
-}
-
-/* libère les chemins textures si définis */
-static void free_textures(t_textures *tx)
-{
-    if (!tx) return;
-    free(tx->no);
-    free(tx->so);
-    free(tx->we);
-    free(tx->ea);
-}
-
-/* libère la map extraite par parse_map_block() */
-static void free_map(t_map *m)
-{
-    int i = 0;
-    if (!m || !m->lines_map) return;
-    while (i < m->rows) { free(m->lines_map[i]); i++; }
-    free(m->lines_map);
-}
 
 int main(int argc, char **argv)
 {
-    int         fd;
-    char       *buf;
-    char      **lines;
-    int         map_start;
-    t_textures  tx;
-    t_fc_colors fc;
-    t_map       m;
+    t_scene scene;
 
-    if (argc != 2) return 1;
-
-    fd = open_check(argv[1]);                 /* fd ou -1 */
-    if (fd < 0) return 1;
-
-    buf = read_file(fd);                      /* buffer alloué */
-    close(fd);
-    if (!buf) return 1;
-
-    lines = split_lines(buf);                 /* tableau de lignes (NULL-terminé) */
-    free(buf);
-    if (!lines) return 1;
-
-    /* parse des headers → remplit tx/fc et positionne map_start */
-    if (!parse_headers(lines, &map_start, &tx, &fc))
+    if (argc != 2)
     {
-        /* parse_headers a déjà affiché l'erreur */
-        free_textures(&tx);
-        free_lines(lines);
-        return 1;
+        printf("Error\nUsage: %s <file.cub>\n", argv[0]);
+        return (1);
+    }
+    if (!parse_scene(argv[1], &scene))
+    {
+        printf("Error\n%s\n", get_parse_error(&scene));
+        cleanup_scene(&scene);
+        return (1);
     }
 
-    /* extraction du bloc map brut (espaces conservés) */
-    if (!parse_map_block(lines, map_start, &m))
+    /* --- Succès : logs utiles pendant le dev (peuvent être retirés) --- */
+    printf("OK spawn=(%d,%d,%c) rows=%d cols=%d\n",
+           scene.spawn.row, scene.spawn.col, scene.spawn.dir,
+           scene.map.rows, scene.map.cols);
+
+    /* Pour afficher la map rectangulaire pendant tes tests, décommente :
     {
-        /* parse_map_block a déjà affiché l'erreur */
-        free_textures(&tx);
-        free_lines(lines);
-        return 1;
+        int r = 0;
+        while (r < scene.map.rows)
+        {
+            printf("%s\n", scene.map.lines_map[r]);
+            r++;
+        }
     }
+    */
 
-    /* sortie minimale pour vérifier le début du parsing */
-    printf("OK %d %d\n", map_start, m.rows);
-
-    /* nettoyage */
-    free_map(&m);
-    free_textures(&tx);
-    free_lines(lines);
-    return 0;
+    cleanup_scene(&scene);
+    return (0);
 }
