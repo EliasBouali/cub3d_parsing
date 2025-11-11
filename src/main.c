@@ -1,4 +1,5 @@
 #include "cubd3.h"
+#include <stdio.h>
 
 int main(int argc, char **argv)
 {
@@ -35,3 +36,4 @@ int main(int argc, char **argv)
     cleanup_scene(&scene);
     return (0);
 }
+
