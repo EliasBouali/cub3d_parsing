@@ -28,7 +28,7 @@ static int	process_line(char *line, int row, t_spawn *spawn, t_scene *scene)
 		if (is_spawn_char(c))
 		{
 			if (spawn->found)
-				return (set_parse_error(scene, "Multiple player spawns"), 0);
+				return (set_parse_error(scene, "Map contains multiple player starting positions"), 0);
 			spawn->found = 1;
 			spawn->row = row;
 			spawn->col = i;
@@ -36,7 +36,7 @@ static int	process_line(char *line, int row, t_spawn *spawn, t_scene *scene)
 			line[i] = '0';
 		}
 		else if (!is_neutral_char(c))
-			return (set_parse_error(scene, "Invalid character in map"), 0);
+			return (set_parse_error(scene, "Map contains invalid character (only 0, 1, N, S, E, W, space allowed)"), 0);
 		i++;
 	}
 	return (1);
@@ -58,7 +58,7 @@ int	scan_map_for_spawn(t_scene *scene)
 		row++;
 	}
 	if (!sp.found)
-		return (set_parse_error(scene, "Missing player spawn"), 0);
+		return (set_parse_error(scene, "Map is missing player starting position (N, S, E, or W)"), 0);
 	scene->spawn.row = sp.row;
 	scene->spawn.col = sp.col;
 	scene->spawn.dir = sp.dir;

@@ -1,26 +1,32 @@
 #include "cubd3.h"
 
-void	init_scene_outputs(t_scene *scene)
+void    init_scene_outputs(t_scene *scene)
 {
-	scene->textures.no = NULL;
-	scene->textures.so = NULL;
-	scene->textures.we = NULL;
-	scene->textures.ea = NULL;
-	scene->fc.floor.blue = 0;
-	scene->fc.floor.green = 0;
-	scene->fc.floor.red = 0;
-	scene->fc.floor.defined = 0;
-	scene->fc.ceiling.blue = 0;
-	scene->fc.ceiling.green = 0;
-	scene->fc.ceiling.red = 0;
-	scene->fc.ceiling.defined = 0;
-	scene->map.lines_map = NULL;
-	scene->map.cols = 0;
-	scene->map.rows = 0;
-	scene->spawn.col = -1;
-	scene->spawn.row = -1;
-	scene->spawn.dir = 0;
-	scene->err = NULL;
+    scene->textures.no = NULL;
+    scene->textures.so = NULL;
+    scene->textures.we = NULL;
+    scene->textures.ea = NULL;
+
+    scene->fc.floor.defined = 0;
+    scene->fc.floor.red = 0;
+    scene->fc.floor.green = 0;
+    scene->fc.floor.blue = 0;
+
+    scene->fc.ceiling.defined = 0;
+    scene->fc.ceiling.red = 0;
+    scene->fc.ceiling.green = 0;
+    scene->fc.ceiling.blue = 0;
+
+    scene->spawn.found = 0;
+    scene->spawn.row = -1;
+    scene->spawn.col = -1;
+    scene->spawn.dir = 0;
+
+    scene->map.rows = 0;
+    scene->map.cols = 0;
+    scene->map.lines_map = NULL;
+
+    scene->err = NULL;
 }
 
 void	free_textures(t_textures *textures)
@@ -67,6 +73,22 @@ void	free_map(t_map *map)
 	map->cols = 0;
 }
 
+
+void	free_lines(char **lines)
+{
+	int	i;
+
+	if (!lines)
+		return ;
+	i = 0;
+	while (lines[i])
+	{
+		free(lines[i]);
+		i++;
+	}
+	free(lines);
+}
+
 char	**load_lines(const char *path, t_scene *scene)
 {
 	int		fd;
@@ -99,4 +121,3 @@ void	cleanup_scene(t_scene *scene)
 		scene->err = NULL;
 	}
 }
-

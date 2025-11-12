@@ -11,7 +11,7 @@ int	match_and_set_texture(const char *line, const char *id,
 	if (status == 1)
 	{
 		if (*seen_flag)
-			return (-1); 
+			return (-1);
 		*seen_flag = 1;
 		return (1);
 	}

@@ -23,4 +23,3 @@ int	parse_scene(const char *path, t_scene *scene)
 	}
 	return (1);
 }
-

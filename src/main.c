@@ -17,10 +17,12 @@ int main(int argc, char **argv)
         return (1);
     }
 
-    /* --- Succès : logs utiles pendant le dev (peuvent être retirés) --- */
-    printf("OK spawn=(%d,%d,%c) rows=%d cols=%d\n",
-           scene.spawn.row, scene.spawn.col, scene.spawn.dir,
-           scene.map.rows, scene.map.cols);
+/* --- Succès : logs utiles pendant le dev (peuvent être retirés) --- */
+      printf("OK: parsing passed\n");               /* NEW */
+      printf("OK spawn=(%d,%d,%c) rows=%d cols=%d\n",
+       scene.spawn.row, scene.spawn.col, scene.spawn.dir,
+       scene.map.rows, scene.map.cols);
+
 
     /* Pour afficher la map rectangulaire pendant tes tests, décommente :
     {
@@ -36,4 +38,3 @@ int main(int argc, char **argv)
     cleanup_scene(&scene);
     return (0);
 }
-

@@ -2,10 +2,12 @@
 
 int is_space(char c)
 {
-  if (c == ' ' || c == '\t')
-    return (1);
-  return (0);
+    if (c == ' ' || c == '\t' || c == '\r' || c == '\n' || c == '\v' || c == '\f')
+        return (1);
+    return (0);
 }
+
+
 
 void skip_spaces(const char **cursor)
 {

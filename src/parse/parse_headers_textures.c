@@ -51,10 +51,15 @@ static int  alloc_copy_path(const char *start, size_t len, char **out_path)
     if (len > 0)
         ft_memcpy(copy, start, len);
     copy[len] = '\0';
+    while (len > 0 && is_space((unsigned char)copy[len - 1]))
+    {
+        copy[len - 1] = '\0';
+        len--;
+    }
+
     *out_path = copy;
     return (1);
 }
-
 
 int match_texture_line(const char *line, const char *id, char **out_path)
 {
@@ -64,7 +69,6 @@ int match_texture_line(const char *line, const char *id, char **out_path)
 
     if (!line || !id || !out_path)
         return (0);
-    *out_path = NULL;
     cursor = line;
     if (!starts_with_ident(&cursor, id))
         return (0);
