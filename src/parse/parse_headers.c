@@ -22,17 +22,23 @@ static int dispatch_header_line(const char *line,
     int status;
 
     status = match_and_set_texture(line, "NO", &tx->no, &seen->no);
-    if (status != 0) return status;
+    if (status != 0)
+      return status;
     status = match_and_set_texture(line, "SO", &tx->so, &seen->so);
-    if (status != 0) return status;
+    if (status != 0)
+      return status;
     status = match_and_set_texture(line, "WE", &tx->we, &seen->we);
-    if (status != 0) return status;
+    if (status != 0)
+      return status;
     status = match_and_set_texture(line, "EA", &tx->ea, &seen->ea);
-    if (status != 0) return status;
+    if (status != 0)
+      return status;
     status = match_and_set_color(line, 'F', &fc->floor, &seen->f);
-    if (status != 0) return status;
+    if (status != 0)
+      return status;
     status = match_and_set_color(line, 'C', &fc->ceiling, &seen->c);
-    if (status != 0) return status;
+    if (status != 0)
+      return status;
     return 0;
 }
 

@@ -21,6 +21,9 @@ SRCS    := src/file/file_validation.c \
            src/utils/utils.c \
 					 src/utils/parse_utils.c \
 					 src/utils/second_parse_utils.c \
+					 src/utils/file_validation_utils.c \
+					 src/utils/file_split_utils.c \
+					 src/utils/map_parse_utils.c \
            src/main.c
 
 OBJS    := $(SRCS:.c=.o)

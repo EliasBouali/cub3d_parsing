@@ -62,6 +62,14 @@ typedef struct s_scene {
     char       *err;
 } t_scene;
 
+typedef struct s_file_reader
+{
+	char	*data;
+	size_t	capacity;
+	size_t	length;
+	t_scene	*scene;
+}	t_file_reader;
+
 /* ---------- Utils (src/utils/) ---------- */
 char    *ft_strrchr(const char *s, int c);
 int     ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -86,6 +94,30 @@ void    cleanup_scene(t_scene *scene);
 int     parse_headers_and_map(char **lines, t_scene *scene, int *map_start);
 int     scan_and_set_spawn(t_scene *scene);
 int     finish_map(t_scene *scene);
+
+/* file_validtion_utils.c: */
+int	reader_fail(t_file_reader *reader, const char *msg);
+int	reader_realloc(t_file_reader *reader, size_t new_capacity);
+int	reader_ensure_capacity(t_file_reader *reader, size_t need);
+void	reader_init(t_file_reader *reader, t_scene *scene);
+int	reader_append_buffer(t_file_reader *reader,
+								char *chunk_buf, ssize_t bytes_read);
+
+/* file_split_utils.c: */
+void	free_partial(char **lines, size_t n);
+size_t	count_total_lines(const char *filebuf);
+char	**alloc_lines_array(size_t total_lines, t_scene *scene);
+char	*alloc_line(const char *filebuf, size_t start, size_t end);
+int	process_line_split(const char *filebuf, char **lines,
+				size_t *indexes, t_scene *scene);
+
+/* map_parse_utils.c: */
+char	*dup_line(const char *s);
+int	count_map_rows(char **lines, int map_start);
+void	free_partial_map(char **lines_map, int count);
+void	reset_map_data(t_map *out);
+void	update_max_cols(t_map *out, int r);
+
 
 /* ---------- File I/O (src/file/) ---------- */
 int     open_check(const char *path, t_scene *scene);
